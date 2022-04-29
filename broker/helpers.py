@@ -2,13 +2,14 @@ import datetime
 import pyEX as p
 from django.utils import timezone
 from .models import *
-
 import os
 import json
 import time
-# SETTING CREDINTIALS FROM ENVIRONMENT AND INITIALIZING AGENT
-KEY = os.environ.get("IEX_KEY")
+
+
+KEY = 'pk_41f8cdb569f042dbaac272ca63ec855e'
 C = p.Client(api_token=KEY, version="stable")
+
 
 def get_symbols():
     cur_path = os.path.dirname(__file__)
@@ -25,20 +26,18 @@ def get_company(symbol):
 # get_company("aapl")
 
 
-
-
 def stats(symbol):
-    
     data = C.chart(symbol, timeframe="1y")
-    chart = [{'date':obj['date'], 'close': obj['close']} for obj in data if obj['close']]
+    chart = [{
+        'date': obj['date'],
+        'close': obj['close']
+    } for obj in data if obj['close']]
     last = datetime.datetime.now().strftime("%b %-d %Y, %-I:%M %p")
     latestPrice = chart[-1]['close']
-    
+
     return {'chart': chart, 'lastUpdated': last, 'lastPrice': latestPrice}
-    
-# stats('amzn')
-# print(stats('amzn'))
-# stats('amzn')
+
+
 def getDays(start):
     end = timezone.now()
     delta = end - start
@@ -46,9 +45,8 @@ def getDays(start):
     for i in range(delta.days + 1):
         days.append((start + datetime.timedelta(days=i)).strftime("%b %-d"))
     return days
-# getDays(datetime.datetime(2020, 10, 1, 0, 0, 0, 0))
 
-# get latest price sum for punch of stockes
+
 def quote(stockNames):
     seen = {}
     aggr = 0
@@ -59,13 +57,12 @@ def quote(stockNames):
             price = C.quote(name)['latestPrice']
             seen[name] = price
             aggr += price
-    return aggr    
+    return aggr
 
 
-# return y axis 
 def getBalance(username):
     user = User.objects.get(username=username)
-    stocks = user.serialize()['stocks'] 
+    stocks = user.serialize()['stocks']
     stock_names = [stock['symbol'] for stock in stocks]
 
     balance = quote(stock_names) + user.current_balance
