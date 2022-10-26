@@ -1,0 +1,90 @@
+{% extends "broker/layout.html" %} {% block title %}Панель управления {% endblock %} {% load static %} {% block body %}
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Панель управления</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Панель управления</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area mr-1"></i> Изменение капитала
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+            <div id="UPD" class="card-footer small text-muted">Обновлено вчера в 23:59</div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card h-auto">
+                    <img src="{% static 'images/android-chrome-512x512.png' %}" class="card-img-top" alt="{% static 'images/android-chrome-512x512.png' %}">
+                    <div class="card-body">
+                        <h3 class="card-title">Баланс</h3>
+                        <p class="card-text" id="BALANCE">Изменение баланса..</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-auto">
+                    <img src="{% static 'images/chart.png' %}" class="card-img-top" alt="{% static 'images/android-chrome-512x512.png' %}">
+                    <div class="card-body">
+                        <h3 class="card-title">Изменение</h3>
+                        <p class="card-text" id="CHANGE">Изменение..</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i> Акции
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Символ</th>
+                            <th>Куплена в</th>
+                            <th>Цена</th>
+                            <th>Продать</th>
+                            <th>Идентификатор</th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Символ</th>
+                            <th>Куплена в</th>
+                            <th>Цена</th>
+                            <th>Продать</th>
+                            <th>Идентификатор</th>
+
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for stock in data %}
+                        <tr>
+                            <td>
+                                <h1> {{stock.symbol}}</h1>
+                            </td>
+                            <td>{{stock.buy_date}}</td>
+                            <td>
+                                <h5 style="display: inline;"> {{stock.buy_price}}</h5>
+                                <h4 style="display: inline;"> $</h4>
+                            </td>
+                            <td> <button id="{{ stock.id }}" class="btn btn-danger">Продать</button> </td>
+                            <td>
+                                <h6> {{stock.id}}</h6>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %} {% block script %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock%}

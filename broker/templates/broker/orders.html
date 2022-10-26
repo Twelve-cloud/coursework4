@@ -1,0 +1,70 @@
+{% extends "broker/layout.html" %}
+{% block title %}Заказы{% endblock %}
+{% load static %}
+{% block body %}
+
+<main>
+  <div class="container-fluid">
+      <h1 class="mt-4">Заказы</h1>
+      <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item active">Заказы</li>
+      </ol>
+
+      <div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table mr-1"></i> Заказы
+          </div>
+          <div class="card-body">
+              <div style="padding-bottom: 15px;">
+                  <button class="btn btn-success" id="order-report-btn">Создать отчёт</button>
+              </div>
+              <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                          <tr>
+                              <th>Имя пользователя</th>
+                              <th>Компания</th>
+                              <th>Тип</th>
+                              <th>Стоимость, $</th>
+                              <th>Принять/Отклонить</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr>
+                              <th>Имя пользователя</th>
+                              <th>Компания</th>
+                              <th>Тип</th>
+                              <th>Стоимость, $</th>
+                              <th>Принять/Отклонить</th>
+                          </tr>
+                      </tfoot>
+                      <tbody>
+                          {% for order in data %}
+                          <tr>
+                              <td>{{order.username}}</td>
+                              <td>{{order.company}}</td>
+                              <td>{{order.type}}</td>
+                              <td class="price">{{order.price}}</td>
+                              <td>
+                                  <button class="btn btn-success btn-accept">Принять</button>
+                                  <button class="btn btn-danger btn-accept">Отклонить</button>
+                              </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+
+              </div>
+          </div>
+    </div>
+</main>
+{% endblock %}
+{% block script %}
+<script src='https://cdn.jsdelivr.net/npm/pdfmake@latest/build/pdfmake.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/pdfmake@latest/build/vfs_fonts.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake/browser.js"></script>
+
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/order.js' %}"></script>
+<script src="{% static 'js/report.js' %}"></script>
+{% endblock %}

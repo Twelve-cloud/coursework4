@@ -1,0 +1,57 @@
+{% extends "broker/layout.html" %} {% block title %}Заказы {% endblock %}
+{% load static %}
+{% block body %}
+
+<main>
+  <div class="container-fluid">
+      <h1 class="mt-4">Услуги</h1>
+      <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item active">Услуги</li>
+      </ol>
+      <div class="card mb-4" style="height: 79vh;">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i> Услуги
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Компания</th>
+                            <th>Тип услуги</th>
+                            <th>Стоимость, $</th>
+                            <th>Заказать</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Компания</th>
+                            <th>Тип услуги</th>
+                            <th>Стоимость, $</th>
+                            <th>Заказать</th>
+
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                        {% for service in data %}
+                        <tr>
+                            <td>{{service.company}}</td>
+                            <td>{{service.type}}</td>
+                            <td>{{service.price}}</td>
+                            <td><button class="btn btn-danger btn-order">Заказать</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+      </div>
+
+<main>
+
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/services.js' %}"></script>
+{% endblock %}
